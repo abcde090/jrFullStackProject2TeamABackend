@@ -1,3 +1,14 @@
+/*follow the structure of 
+{
+    "user_id":"",
+    "email_id":"",
+    "name":"",
+    "phone":"",
+    "address":"string",
+    "leave":[],
+    "role":["user","admin"]
+}
+ */ 
 const mongoose = require('mongoose');
 const Joi = require('joi')
 const Schema = mongoose.Schema;

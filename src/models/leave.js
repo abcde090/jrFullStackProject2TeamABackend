@@ -1,3 +1,23 @@
+/*follow the structure of 
+{
+    "leave":{
+        "user_id":"",
+        "leave_id":"",
+        "leave_type":"",
+        "duration":["full day","multiple days","part day"],
+        "start_date":"",
+        "end_date":"",
+        "detail":"",
+        "Sent to":"",
+        "message":"",
+        "submit":"",
+        "aprrove":{
+            "isApproved":"",
+            "approvedBy":""
+        }
+    }
+}
+ */ 
 const mongoose = require('mongoose');
 const Joi = require('joi')
 const Schema = mongoose.Schema;
