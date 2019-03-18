@@ -49,6 +49,9 @@ const personSchema = new Schema({
     type: boolean,
 
   },
+  roles:{
+    type: String
+  },
   __v: { type: Number, select: false },
   createdAt: { type: Date, select: false },
   updatedAt: { type: Date, select: false }
