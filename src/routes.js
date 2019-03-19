@@ -3,7 +3,6 @@ const express = require('express');
 const userRoute = require('./routes/user');
 const leaveRoute = require('./routes/leave');
 const responseFormatter = require('./utils/responseFormatter');
-const authorize = require("./middlewares/authorize")
 const router = express.Router();
 router.get('/', (req, res) =>
 	responseFormatter(
