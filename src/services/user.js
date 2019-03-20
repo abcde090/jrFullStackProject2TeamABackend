@@ -5,9 +5,11 @@ const findByField = async (field) => {
 
 const createUser = async (payload) => {
     const { email, password } = payload;
+    
     const user = new User({
         email,
-        password
+        password,
+        role:"staff"
     })
     return user.save();
 }

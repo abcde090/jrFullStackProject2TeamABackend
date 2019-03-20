@@ -22,20 +22,20 @@ const addUser = async (req, res) => {
 		return responseFormatter(res, { email }, 400, "email exist")
 
 	} else {
-		
+
 		const user = await createUser({
 			email,
 			password
 		})
+		const userId = user._id;
+		const role = user.role;
 		token = Jwt.createToken({
-			userId: user._id,
-			role: "staff"
+			userId,
+			role
 		})
 		console.log(token)
-		return responseFormatter(res,{userId:user._id,token})
-
+		return responseFormatter(res, { userId: user._id, token })
 	}
-
 }
 
 module.exports = {

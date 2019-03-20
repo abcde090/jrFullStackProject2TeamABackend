@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('joi')
+// const bcrypt = require('bcrypt')
 const userSchema = new mongoose.Schema(
 	{
 		name: {
@@ -23,6 +24,11 @@ const userSchema = new mongoose.Schema(
 			required: true,
 			select: false
 		},
+		role:{
+			type: String,
+			required: true,
+			select: true
+		}
 	},
 	{
 		timestamps: true,

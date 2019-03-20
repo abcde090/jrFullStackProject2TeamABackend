@@ -14,13 +14,8 @@ const createToken = (payload) => {
 const validateToken = (token)=>{
     console.log(token)
     console.log(privateKey)
-    jwt.verify(token,privateKey,(err,decoded)=>{
-        if(err){
-            console.log(err);
-        }else{
-            console.log(decoded)
-        }
-    })
+    return jwt.verify(token,privateKey)
+    
 }
 
 
