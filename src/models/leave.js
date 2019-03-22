@@ -1,71 +1,29 @@
-/*follow the structure of 
-{
-    "leave":{
-        "user_id":"",
-        "leave_id":"",
-        "leave_type":"",
-        "duration":["full day","multiple days","part day"],
-        "start_date":"",
-        "end_date":"",
-        "detail":"",
-        "Sent to":"",
-        "message":"",
-        "submit":"",
-        "aprrove":{
-            "isApproved":"",
-            "approvedBy":""
-        }
-    }
-}
- */ 
 const mongoose = require('mongoose');
-const Joi = require('joi')
-const Schema = mongoose.Schema;
-const minlengthOfDetail = 20;
-
-const leaveSchema = new Schema(
+const leaveTypeSchema = new mongoose.Schema(
 	{
-		startDate: {
-			type: Date,
-			required:true
-		},
-		endDate: {
-			type:Date,
-			required:true
-		},
-		leaveType: [{
-			type: String,
-
-			required:true
-		}],
-		detail: {
+	  leaveSubType: String,
+	  Paid: Boolean,
+	},
+	{ _id: false }
+);
+const leaveSchema = new mongoose.Schema(
+    {
+		_id: {
 			type: String,
 			minlength: minlengthOfDetail,
 			required: true
 		},
-		sendTo: {
-			type: String,
-			alias: "supervisor"
+		applicant:{
+			type:String,
+			ref: 'User'
 		},
-		isSubmitted: {
-			type: Boolean,
-			required: true
-		},
-		approveInfo: {
-			isApproved: {
-				type:Boolean,
-			},
-			approvedBy: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "Admin"
-			},
-			userId:{
-				type:mongoose.SchemaTypes.ObjectId,
-				ref:"Staff",
-				required: true
-			}
-		}
-
+		description: String,
+		leaveType:leaveTypeSchema,
+		//applicant:{ type: String, ref: 'User' },
+		startTime:Date,
+		endTime:Date,
+		//supervisor:{type:String, ref: 'User'},
+		isApproved:Boolean
 
 	},
 	{
@@ -78,5 +36,8 @@ const leaveSchema = new Schema(
 		},
 	}
 );
+leaveSchema.virtual('duration').get(function() {
+	return `${this.endTime}`;
+  });
 
 module.exports = mongoose.model('Leave', leaveSchema);
