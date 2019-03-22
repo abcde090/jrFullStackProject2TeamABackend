@@ -30,6 +30,7 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   	app.use(morgan('common'));
 }
+
 app.use(routes);
 app.use(errorHandler);
 app.use(notFoundHandler);
