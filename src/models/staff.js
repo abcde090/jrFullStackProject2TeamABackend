@@ -4,13 +4,13 @@ const Person = require('./person');
 const Schema = mongoose.Schema;
 
 const Staff = Person.discriminator("Staff", new Schema({
-    leaveStatue: {
-        type: Boolean
-    },
-    leaveList:[{
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: "Leave"
-    }]
+	leaveStatue: {
+		type: Boolean
+	},
+	leaveList: [{
+		type: mongoose.SchemaTypes.ObjectId,
+		ref: "Leave"
+	}]
 }))
 
 

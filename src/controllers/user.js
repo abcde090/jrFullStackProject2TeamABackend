@@ -42,4 +42,5 @@ module.exports = {
 	getUserById,
 	getAllUsers,
 	addUser
+
 };

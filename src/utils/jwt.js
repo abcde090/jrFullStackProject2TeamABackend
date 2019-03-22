@@ -3,25 +3,30 @@ require("envdotjson").load();
 
 const privateKey = process.env.PRIVATEKEY
 const createToken = (payload) => {
-    const {userId,role} = payload;
-    const token = jwt.sign(
-        {userId,role}, 
-        privateKey,
-        { algorithm :"HS256",expiresIn :60*30});
-        return token;
+	const { userId, role } = payload;
+	const token = jwt.sign(
+		{ userId, role },
+		privateKey,
+		{ algorithm: "HS256", expiresIn: 60 * 30 });
+	return token;
 }
 
-const validateToken = (token)=>{
-    console.log(token)
-    console.log(privateKey)
-    return jwt.verify(token,privateKey)
-    
+const validateToken = (token) => {
+	console.log(token)
+	console.log(privateKey)
+	try {
+		return jwt.verify(token, privateKey)
+	}
+	catch (err) {
+		console.log(err)
+		return null;
+	}
 }
 
 
 
 
 module.exports = {
-    createToken,
-    validateToken
+	createToken,
+	validateToken
 };
