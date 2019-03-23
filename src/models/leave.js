@@ -11,14 +11,9 @@ const leaveSchema = new mongoose.Schema(
     {
 		_id: {
 			type: String,
-<<<<<<< HEAD
-			minlength: minlengthOfDetail,
-			required: true
-=======
 			uppercase: true,
 			alias: 'code',
 			required: true,
->>>>>>> add leave schema
 		},
 		// applicant:{
 		// 	type:String,
