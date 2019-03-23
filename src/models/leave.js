@@ -25,13 +25,6 @@ const leaveSchema = new mongoose.Schema(
 			required:true,
 		},
 		leaveType:leaveTypeSchema,
-<<<<<<< HEAD
-		//applicant:{ type: String, ref: 'User' },
-		startTime:Date,
-		endTime:Date,
-		//supervisor:{type:String, ref: 'User'},
-		isApproved:Boolean
-=======
 		startTime:{
 			type:Date,
 			required:true,
@@ -49,7 +42,6 @@ const leaveSchema = new mongoose.Schema(
 			type:Boolean,
 			required:true,
 		}
->>>>>>> add leave schema
 
 	},
 	{
