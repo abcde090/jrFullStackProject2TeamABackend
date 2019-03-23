@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema(
 		},
 		email: {
 			type: String,
-			required: true,
 			trim: true,
 			unique: true,
 			// cannot validate the uniqueness here, it will break the update function
@@ -21,12 +20,10 @@ const userSchema = new mongoose.Schema(
 		},
 		password: {
 			type: String,
-			required: true,
 			select: false
 		},
 		role:{
 			type: String,
-			required: true,
 			select: true
 		}
 	},

@@ -1,5 +1,6 @@
 const express = require('express');
 require('express-async-errors');
+const bodyParser = require('body-parser')
 const routes = require('./routes');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -22,6 +23,8 @@ process.on('unhandledRejection', e => {
 });
 
 const app = express();
+
+app.use(bodyParser.json());
 
 app.use(helmet());
 app.use(cors());

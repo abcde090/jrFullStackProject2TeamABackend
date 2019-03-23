@@ -3,46 +3,33 @@ const leaveTypeSchema = new mongoose.Schema(
 	{
 	  leaveSubType: String,
 	  Paid: Boolean,
-	  required:true,
 	},
 	{ _id: false }
 );
 const leaveSchema = new mongoose.Schema(
     {
-		_id: {
-			type: String,
-			uppercase: true,
-			alias: 'code',
-			required: true,
+		applicant:{
+			type: ObjectId,
+			ref: 'User',
 		},
-		// applicant:{
-		// 	type:String,
-		// 	ref: 'User',
-		// 	required:true,
-		// },
 		description: {
 			type:String,
-			required:true,
 		},
 		leaveType:leaveTypeSchema,
-		startTime:{
-			type:Date,
-			required:true,
-		},
-		endTime:{
-			type:Date,
-			required:true,
-		},
-		// sendTo:{
+		// startTime:{
+		// 	type:Date,
+		// },
+		// endTime:{
+		// 	type:Date,
+		// },
+		// supervisor:{
 		// 	type:String, 
 		// 	ref: 'User',
-		// 	required: true,
 		// },
 		isApproved:{
-			type:Boolean,
-			required:true,
+		 	type:Boolean,
+			default: false,
 		}
-
 	},
 	{
 		timestamps: true,
@@ -52,10 +39,11 @@ const leaveSchema = new mongoose.Schema(
 		toJSON: {
 			virtuals: true
 		},
+		id:false,
 	}
 );
-leaveSchema.virtual('duration').get(function() {
-	return `${this.endTime}`;
-  });
+// leaveSchema.virtual('duration').get(function() {
+// 	return `${this.endTime}`;
+//   });
 
 module.exports = mongoose.model('Leave', leaveSchema);
