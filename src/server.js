@@ -1,5 +1,6 @@
 const express = require('express');
 require('express-async-errors');
+const bodyParser = require('body-parser')
 const routes = require('./routes');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -8,7 +9,6 @@ const mongoose = require('mongoose');
 const logger = require('./utils/logger');
 const notFoundHandler = require('./middlewares/notFound');
 const errorHandler = require('./middlewares/errorHandler');
-
 const PORT = process.env.PORT || 3000;
 
 process.on('uncaughtException', e => {
@@ -22,7 +22,7 @@ process.on('unhandledRejection', e => {
 });
 
 const app = express();
-
+app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors());
 if (process.env.NODE_ENV === 'development') {
@@ -30,7 +30,6 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   	app.use(morgan('common'));
 }
-
 app.use(routes);
 app.use(errorHandler);
 app.use(notFoundHandler);

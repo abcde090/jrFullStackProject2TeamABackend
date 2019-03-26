@@ -16,7 +16,6 @@ const Schema = mongoose.Schema;
 const personSchema = new Schema({
 	emailId: {
 		type: String,
-		required: true,
 		validate: {
 			validator: email => !Joi.validate(email, Joi.string().email().error()).error,
 			message: "Invalid email format"
@@ -30,13 +29,11 @@ const personSchema = new Schema({
 		type: String,
 		trim: true,
 		minlength: 2,
-		required: true,
 	},
 	lastName: {
 		type: String,
 		trim: true,
 		minlength: 2,
-		required: true,
 	},
 	phone: {
 		type: Number,
