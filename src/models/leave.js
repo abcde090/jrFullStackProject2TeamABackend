@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const leaveTypeSchema = new mongoose.Schema(
 	{
-	  leaveSubType: String,
-	  Paid: Boolean,
+		leaveSubType: String,
+		Paid: Boolean,
 	},
 	{ _id: false }
 );
@@ -28,7 +28,7 @@ const leaveSchema = new mongoose.Schema(
 			ref: 'User',
 		},
 		isApproved:{
-		 	type:Boolean,
+			type:Boolean,
 			default: false,
 		}
 	},

@@ -1,17 +1,14 @@
 class Service {
-    constructor(Model) {
-      	this.Model = Model;
+	constructor(Model) {
+		this.Model = Model;
     }
-  
     async countAll() {
 		const count = await this.Model.find().countDocuments();
 		return count;
-    }
-  
-    async getOne(id) {
-      	return this.Model.findById(id);
-    }
-  
+	}
+	async getOne(id) {
+		return this.Model.findById(id);
+	}
     async getAll(pagination, sort, search) {
 		const { page, pageSize } = pagination;
 		let query;
@@ -56,9 +53,9 @@ class Service {
     }
   
     async deleteOne(id) {
-      	return this.Model.findByIdAndDelete(id);
+		return this.Model.findByIdAndDelete(id);
     }
   }
   
-  module.exports = Service;
+module.exports = Service;
   

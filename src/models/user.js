@@ -42,8 +42,8 @@ const userSchema = new mongoose.Schema(
 		},
 		id: false
 	}
-	
 );
+
 userSchema.methods.hashPassword = async function () {
 	this.password = await bcrypt.hash(this.password, 10);
 };
@@ -52,6 +52,5 @@ userSchema.methods.validatePassword = async function (password) {
 	const validPassword = await bcrypt.compare(password, this.password);
 	return validPassword;
 };
-
 
 module.exports = mongoose.model('User', userSchema);

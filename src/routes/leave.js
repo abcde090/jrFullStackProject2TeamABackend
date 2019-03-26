@@ -1,5 +1,4 @@
 const router = require('express').Router();
-
 const { getAllLeaves, getLeaveById, addLeave } = require('../controllers/leave');
 
 router.get('/', getAllLeaves);
