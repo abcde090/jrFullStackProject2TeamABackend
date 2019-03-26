@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('joi')
 // const bcrypt = require('bcrypt')
+const ObjectId = mongoose.Schema.Types.ObjectId;
 const userSchema = new mongoose.Schema(
 	{
 		name: {
@@ -25,7 +26,11 @@ const userSchema = new mongoose.Schema(
 		role:{
 			type: String,
 			select: true
-		}
+		},
+		leaves: [{ 
+			type: ObjectId, 
+			ref: 'Leave'
+		}]
 	},
 	{
 		timestamps: true,
@@ -37,6 +42,7 @@ const userSchema = new mongoose.Schema(
 		},
 		id: false
 	}
+	
 );
 userSchema.methods.hashPassword = async function () {
 	this.password = await bcrypt.hash(this.password, 10);

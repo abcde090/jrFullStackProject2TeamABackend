@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const ObjectId = mongoose.Schema.Types.ObjectId;
 const leaveTypeSchema = new mongoose.Schema(
 	{
 	  leaveSubType: String,
@@ -22,10 +23,10 @@ const leaveSchema = new mongoose.Schema(
 		// endTime:{
 		// 	type:Date,
 		// },
-		// supervisor:{
-		// 	type:String, 
-		// 	ref: 'User',
-		// },
+		supervisor:{
+			type: ObjectId, 
+			ref: 'User',
+		},
 		isApproved:{
 		 	type:Boolean,
 			default: false,

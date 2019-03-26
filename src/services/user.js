@@ -14,9 +14,22 @@ const createUser = async (payload) => {
 	return user.save();
 }
 
+const addLeaveToUser = async (UserId, LeaveId)=> {
+	
+	return await User.findByIdAndUpdate(UserId, {
+		$push: {
+			leaves: LeaveId,
+		}
+	},
+	{
+		new: true,
+		runValidators: true
+	});
+}
 
 module.exports = {
 	findByField,
-	createUser
+	createUser,
+	addLeaveToUser
 }
 

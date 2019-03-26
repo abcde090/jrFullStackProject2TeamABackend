@@ -1,4 +1,6 @@
 const leaveService = require('../services/leave');
+const Leave = require('../models/leave');
+const user = require('../services/user');
 const { responseFormatter } = require('../utils/helpers');
 
 async function getAllLeaves(req, res) {
@@ -21,15 +23,13 @@ async function getLeaveById(req, res) {
 	}
   
 	return responseFormatter(res, leave);
-  }
-
-
-
+}
 
 async function addLeave(req, res){
-	console.log(req.body);
-	const{description,leaveSubType,paid}=req.body
+	const{description,leaveSubType,paid,applicant,supervisor}=req.body
 	const leave = await leaveService.createOne({
+		applicant,
+		supervisor,
 		leaveType:{
 			leaveSubType:leaveSubType,
 			Paid:paid,
@@ -37,11 +37,19 @@ async function addLeave(req, res){
 		description,
 		isApproved:false,
 	});
+	const leaveId = leave._id;
+	console.log(leaveId);
+	const applicantId = applicant;
+	const supervisorId = supervisor;
+	await user.addLeaveToUser(applicantId, leaveId);
+	await user.addLeaveToUser(supervisorId, leaveId);
+
+	
 	return responseFormatter(res,leave, 201);
-  }
+}
 
 module.exports = {
 	getLeaveById,
 	getAllLeaves,
-	addLeave
+	addLeave,
 };
