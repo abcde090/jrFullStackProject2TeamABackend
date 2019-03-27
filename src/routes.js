@@ -1,5 +1,4 @@
 const express = require('express');
-
 const userRoute = require('./routes/user');
 const leaveRoute = require('./routes/leave');
 const responseFormatter = require('./utils/responseFormatter');
@@ -12,7 +11,6 @@ router.get('/', (req, res) =>
 		null
 	)
 );
-
 router.use('/user', userRoute);
 router.use('/leave', leaveRoute);
 

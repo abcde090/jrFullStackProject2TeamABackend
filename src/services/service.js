@@ -55,7 +55,7 @@ class Service {
     async deleteOne(id) {
 		return this.Model.findByIdAndDelete(id);
     }
-  }
+}
   
 module.exports = Service;
   
