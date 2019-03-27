@@ -1,8 +1,10 @@
 const User = require('../models/user');
+const leaveService = require('../services/leave');
 const logger = require('../utils/logger')
-const { findByField, createUser } = require('../services/user');
+const { findByField, createUser, updateUser, deleteUser,removeOneLeaveFromUser } = require('../services/user');
 const { responseFormatter } = require('../utils/helpers')
 const Jwt = require('../utils/jwt')
+
 const getUserById = async (req, res) => {
 	const { id } = req.params; //ES6 destructuring
 	const user = await User.findById(id);
@@ -15,15 +17,14 @@ const getAllUsers = async (req, res) => {
 };
 
 const addUser = async (req, res) => {
-	const { email, password } = req.body;
+	const { name, email, password } = req.body;
 	const userExist = await findByField({ email });
 	if (userExist) {
 		//email exist
 		return responseFormatter(res, { email }, 400, "email exist")
-
 	} else {
-
 		const user = await createUser({
+			name,
 			email,
 			password
 		})
@@ -37,10 +38,37 @@ const addUser = async (req, res) => {
 		return responseFormatter(res, { userId: user._id, token })
 	}
 }
+const deleteOneUser = async (req, res) => {
+	const { id } = req.params;
+	const user = await deleteUser(id);
+	return responseFormatter(res, user, 200);
+}
+const updateOneUser = async (req, res)=>{
+	const { id } = req.params
+	const {name, email, password, role} = req.body;
+	const userExist = await findByField({ email });
+	if (userExist) {
+		const user = await updateUser(id,{
+			name,
+			email,
+			password,
+			role
+		})
+		token = Jwt.createToken({
+			id,
+			role
+		})
+		return responseFormatter(res, { user, token })
+	} else {
+		return responseFormatter(res, { user_name:name }, 400, "No user exist")
+	}
+}
+
 
 module.exports = {
 	getUserById,
 	getAllUsers,
-	addUser
-
+	addUser,
+	deleteOneUser,
+	updateOneUser,
 };

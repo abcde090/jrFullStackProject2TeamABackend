@@ -5,13 +5,25 @@ const findByField = async (field) => {
 }
 
 const createUser = async (payload) => {
-	const { email, password } = payload;
+	const { name, email, password } = payload;
 	const user = new User({
+		name, 
 		email,
 		password,
 		role: "staff"
 	})
 	return user.save();
+}
+
+const updateUser = async(UserId, fields) =>{
+	return User.findByIdAndUpdate(UserId, fields, {
+		new: true,
+		runValidators: true
+	});
+}
+
+const deleteUser = async(id) =>{
+	return User.findByIdAndDelete(id)
 }
 
 const addLeaveToUser = async (UserId, LeaveId)=> {
@@ -26,9 +38,24 @@ const addLeaveToUser = async (UserId, LeaveId)=> {
 	});
 }
 
+const removeOneLeaveFromUser = async (UserId, LeaveId)=> {
+	return await User.findByIdAndUpdate(UserId, {
+		$pull: {
+			leaves: LeaveId,
+		}
+	},
+	{
+		new: true,
+		runValidators: true
+	});
+}
+
 module.exports = {
 	findByField,
 	createUser,
-	addLeaveToUser
+	addLeaveToUser,
+	updateUser,
+	removeOneLeaveFromUser,
+	deleteUser,
 }
 

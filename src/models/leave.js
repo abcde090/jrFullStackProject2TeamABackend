@@ -1,12 +1,5 @@
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Schema.Types.ObjectId;
-const leaveTypeSchema = new mongoose.Schema(
-	{
-		leaveSubType: String,
-		Paid: Boolean,
-	},
-	{ _id: false }
-);
 const leaveSchema = new mongoose.Schema(
     {
 		applicant:{
@@ -16,7 +9,10 @@ const leaveSchema = new mongoose.Schema(
 		description: {
 			type:String,
 		},
-		leaveType:leaveTypeSchema,
+		leaveType:{
+			leaveSubType: String,
+			Paid: Boolean,
+		},
 		// startTime:{
 		// 	type:Date,
 		// },
