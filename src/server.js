@@ -10,7 +10,8 @@ const logger = require('./utils/logger');
 const notFoundHandler = require('./middlewares/notFound');
 const errorHandler = require('./middlewares/errorHandler');
 const PORT = process.env.PORT || 3000;
-
+const swaggerUi=require('swagger-ui-express')
+const swaggerDocument = require('../swagger/swagger.json');
 process.on('uncaughtException', e => {
 	logger.error(e.message);
 	process.exit(1);
@@ -22,6 +23,9 @@ process.on('unhandledRejection', e => {
 });
 
 const app = express();
+
+ 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors());
