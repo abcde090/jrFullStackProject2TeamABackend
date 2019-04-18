@@ -23,6 +23,24 @@ process.on('unhandledRejection', e => {
 
 const app = express();
 app.use(bodyParser.json());
+app.all('/api/*', function (req, res, next) {
+	console.log('dadad');
+	const allowedOrigins = ['http://localhost:3111','http://localhost:8000', 'https://learn.jiangren.com.au', 'http://learn.jiangren.com.au', 'http://127.0.0.1:8080','http://jrdashboard.s3-website-ap-southeast-2.amazonaws.com'];
+	const origin = req.headers.origin;
+	if (allowedOrigins.indexOf(origin) > -1) {
+		res.setHeader('Access-Control-Allow-Origin', origin);
+	}
+	res.header('Access-Control-Allow-Credentials', true);
+	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE, PATCH');
+	res.header('Access-Control-Allow-Headers', 'Origin, Authorization, x-xsrf-token,X-Requested-With, Content-Type, Accept, x-access-token');
+	//intercepts OPTIONS method
+	if ('OPTIONS' === req.method) {
+		//respond with 200
+		res.send(200);
+	} else {
+		next();
+	}
+});
 app.use(helmet());
 app.use(cors());
 if (process.env.NODE_ENV === 'development') {
@@ -30,6 +48,7 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   	app.use(morgan('common'));
 }
+
 app.use(routes);
 app.use(errorHandler);
 app.use(notFoundHandler);
