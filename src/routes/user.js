@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { getAllUsers, getUserById,addUser, updateOneUser, deleteOneUser } = require('../controllers/user');
+const { getAllUsers, getUserById,addUser, updateOneUser, deleteOneUser, getUserByRole } = require('../controllers/user');
 const authorization = require('../middlewares/authorization')
 const adminRole = require('../middlewares/adminRole')
 const authentication = require('../controllers/authentication')
@@ -19,5 +19,6 @@ router.post('/auth',authentication);
 router.get('/:id', authorization,getUserById);
 //need admin role and authorization
 router.get('/',authorization,adminRole,getAllUsers);
+router.get('/user/:role',getUserByRole);
 
 module.exports = router;
