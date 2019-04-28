@@ -3,11 +3,11 @@ const { responseFormatter } = require('../utils/helpers');
 module.exports = (req, res, next) => {
 	const authHeader = req.header("authorization")
 	if (!authHeader) {
-		return responseFormatter(res, {}, 400, "invalid authorization")
+		return responseFormatter(res, {}, 401, "invalid authorization")
 	}
 	tokenArr = authHeader.split(" ");
 	if (tokenArr.length !== 2 || tokenArr[0] !== "Bearer") {
-		return responseFormatter(res, {}, 400, "invalid authorization format")
+		return responseFormatter(res, {}, 401, "invalid authorization format")
 	}
 
 	const decoded = validateToken(tokenArr[1]);
@@ -16,5 +16,5 @@ module.exports = (req, res, next) => {
 		req.user = decoded;
 		return next();
 	}
-	return responseFormatter(res, {}, 400, "invalid token");
+	return responseFormatter(res, {}, 401, "invalid token");
 }

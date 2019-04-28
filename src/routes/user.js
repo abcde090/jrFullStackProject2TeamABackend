@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { getAllUsers, getUserById,addUser, updateOneUser, deleteOneUser } = require('../controllers/user');
+const { getAllUsers, getUserById,addUser, updateOneUser, deleteOneUser,addUserWithoutToken } = require('../controllers/user');
 const authorization = require('../middlewares/authorization')
 const adminRole = require('../middlewares/adminRole')
 const authentication = require('../controllers/authentication')
@@ -12,9 +12,10 @@ router.get('/test',(req,res)=>{
     console.log(user);
 })
 router.post('/', addUser);
-router.put('/:id',updateOneUser);
-router.delete('/:id',deleteOneUser);
+router.post('/add',addUserWithoutToken)
 router.post('/auth',authentication);
+router.patch('/:id',authorization,updateOneUser);
+router.delete('/:id',authorization,adminRole,deleteOneUser);
 //need authorization
 router.get('/:id', authorization,getUserById);
 //need admin role and authorization
