@@ -59,17 +59,17 @@ const addUserWithoutToken = async (req, res) => {
 			email,
 			password
 		})
-		return responseFormatter(res, 200)
+		return responseFormatter(res,user, 200)
 	}
 }
 const deleteOneUser = async (req, res) => {
 	const { id } = req.params;
 	const user = await User.findById(id);
 	if (user.role === 'admin') {
-		return responseFormatter(res, 400, "Can't delete admin")
+		return responseFormatter(res,{}, 400, "Can't delete admin")
 	} else {
 		const user = await deleteUser(id);
-		return responseFormatter(res, 200, user);
+		return responseFormatter(res, user,200);
 	}
 
 }
