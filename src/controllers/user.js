@@ -21,6 +21,12 @@ const getAllUsers = async (req, res) => {
 	}
 };
 
+const getUserByRole = async (req, res) => {
+	const {role} = req.params;
+	const users = await User.find().where("role",role);
+	return res.json(users);
+};
+
 const addUser = async (req, res) => {
 	const { firstName, lastName, email, password } = req.body;
 	console.log(req.body);
@@ -100,4 +106,5 @@ module.exports = {
 	deleteOneUser,
 	updateOneUser,
 	addUserWithoutToken,
+	getUserByRole
 };

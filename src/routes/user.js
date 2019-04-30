@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { getAllUsers, getUserById,addUser, updateOneUser, deleteOneUser,addUserWithoutToken } = require('../controllers/user');
+const { getAllUsers, getUserById,addUser, updateOneUser, deleteOneUser,addUserWithoutToken，getUserByRole } = require('../controllers/user');
 const authorization = require('../middlewares/authorization')
 const adminRole = require('../middlewares/adminRole')
 const authentication = require('../controllers/authentication')
@@ -20,5 +20,6 @@ router.delete('/:id',authorization,adminRole,deleteOneUser);
 router.get('/:id', authorization,getUserById);
 //need admin role and authorization
 router.get('/',authorization,adminRole,getAllUsers);
+router.get('/user/:role',getUserByRole);
 
 module.exports = router;
