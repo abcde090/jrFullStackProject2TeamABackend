@@ -13,6 +13,9 @@ class LeaveService extends Service {
 			runValidators: true
 		});
 	}
+	async findAllByField(field){
+		return await Leave.find(field).populate('applicant');
+	}
 }
 
 module.exports = new LeaveService(Leave);

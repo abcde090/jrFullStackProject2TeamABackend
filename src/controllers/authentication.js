@@ -3,6 +3,7 @@ const auth = require('../services/auth')
 const { responseFormatter } = require('../utils/helpers')
 
 module.exports = async (req, res) => {
+	console.log(req.body)
 	const { email, password } = req.body;
 	const user = await auth({ email, password });
 	if (user) {

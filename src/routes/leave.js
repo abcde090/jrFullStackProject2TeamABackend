@@ -7,9 +7,12 @@ const { getAllLeaves,
         approveRequest,
         updateLeave,
         deleteOneLeave,
-        deleteAllLeaveOfUser } = require('../controllers/leave');
+        deleteAllLeaveOfUser,
+        getLeaveByStatus } = require('../controllers/leave');
 
 router.get('/', getAllLeaves);
+//'/status/approved or /status/request'
+router.get('/status/:status',getLeaveByStatus)
 router.get('/:id', authorization,getLeaveById);
 router.put('/approve/:id', approveRequest);
 router.put('/:id', updateLeave);

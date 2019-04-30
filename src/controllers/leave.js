@@ -2,6 +2,7 @@ const leaveService = require('../services/leave');
 const user = require('../services/user');
 const User = require('../models/user');
 const { responseFormatter, convertQuery } = require('../utils/helpers');
+const Leave = require('../models/leave');
 
 async function getAllLeaves(req, res) {
 	const total = await leaveService.countAll();
@@ -9,12 +10,23 @@ async function getAllLeaves(req, res) {
 	const leaves = await leaveService.getAll(pagination, sort, search);
 	return responseFormatter(res, { data: leaves, pagination });
 }
-  
+const getLeaveByStatus = async (req, res) => {
+	const { status } = req.params;
+	isApproved= status==='approved'? true:status==='request'?false:null;
+	console.log(isApproved)
+	const leaves = await leaveService.findAllByField({ isApproved })
+	if (leaves) {
+		return res.json(leaves);
+	}else{
+		return responseFormatter(res,[],400,'No such status leaves')
+	}
+}
+
 async function getLeaveById(req, res) {
 	const { id } = req.params;
 	const leave = await leaveService.getOneWithPopulate(id, {
-		applicant:'name',
-		supervisor:'name',
+		applicant: 'name',
+		supervisor: 'name',
 	});
 	if (!leave) {
 		return responseFormatter(res, 'Leave not found', 404);
@@ -22,52 +34,54 @@ async function getLeaveById(req, res) {
 	return responseFormatter(res, leave);
 }
 
-async function addLeave(req, res){
-	const{description,leaveSubType,paid,applicant,supervisor}=req.body
+async function addLeave(req, res) {
+	console.log(req.body)
+	const { description, leaveSubType, paid, applicant, supervisor } = req.body
 	const leave = await leaveService.createOne({
 		applicant,
 		supervisor,
-		leaveType:{
-			leaveSubType:leaveSubType,
-			Paid:paid,
+		leaveType: {
+			leaveSubType: leaveSubType,
+			Paid: paid,
 		},
 		description,
-		isApproved:false,
+		isApproved: false,
 	});
+	console.log(leave)
 	const leaveId = leave._id;
 	const applicantId = applicant;
 	const supervisorId = supervisor;
 	await user.addLeaveToUser(applicantId, leaveId);
 	await user.addLeaveToUser(supervisorId, leaveId);
-	return responseFormatter(res,leave, 201);
+	return responseFormatter(res, leave, 201);
 }
 
-async function approveRequest(req,res){
+async function approveRequest(req, res) {
 	const { id } = req.params;
-	const leave = await leaveService.approveRequest(id); 
-	return responseFormatter(res,leave, 201);
-	
+	const leave = await leaveService.approveRequest(id);
+	return responseFormatter(res, leave, 201);
+
 }
 
-async function updateLeave(req, res){
+async function updateLeave(req, res) {
 	const { id } = req.params;
-	const{description,leaveSubType,paid,applicant,supervisor,isApproved}=req.body
+	const { description, leaveSubType, paid, applicant, supervisor, isApproved } = req.body
 	console.log(leaveSubType);
 	console.log(paid);
-	const leave = await leaveService.updateOne(id,{
+	const leave = await leaveService.updateOne(id, {
 		applicant,
 		supervisor,
-		leaveType:{
-			leaveSubType:leaveSubType,
-			Paid:paid,
+		leaveType: {
+			leaveSubType: leaveSubType,
+			Paid: paid,
 		},
 		description,
 		isApproved
 	});
-	return responseFormatter(res,leave, 201);
+	return responseFormatter(res, leave, 201);
 }
 
-async function deleteLeave(id){
+async function deleteLeave(id) {
 	const leaveDelete = await leaveService.getOne(id);
 	const applicantId = leaveDelete.applicant;
 	const supervisorId = leaveDelete.supervisor;
@@ -77,17 +91,17 @@ async function deleteLeave(id){
 	return leaveDelete
 }
 
-async function deleteOneLeave(req,res){
+async function deleteOneLeave(req, res) {
 	const { id } = req.params;
 	const leaveDelete = await deleteLeave(id);
-	return responseFormatter(res,leaveDelete, 201);
+	return responseFormatter(res, leaveDelete, 201);
 }
 
-async function deleteAllLeaveOfUser(req,res){
+async function deleteAllLeaveOfUser(req, res) {
 	const { id } = req.params;
 	const userUpdate = await User.findById(id);
 	console.log(userUpdate);
-	userUpdate.leaves.map(leave =>{
+	userUpdate.leaves.map(leave => {
 		console.log(leave);
 		deleteLeave(leave._id);
 	})
@@ -102,4 +116,5 @@ module.exports = {
 	updateLeave,
 	deleteOneLeave,
 	deleteAllLeaveOfUser,
+	getLeaveByStatus
 };
