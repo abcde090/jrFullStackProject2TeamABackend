@@ -5,6 +5,7 @@ const leaveSchema = new mongoose.Schema(
 		applicant:{
 			type: ObjectId,
 			ref: 'User',
+			required:true
 		},
 		description: {
 			type:String,
@@ -26,6 +27,7 @@ const leaveSchema = new mongoose.Schema(
 		isApproved:{
 			type:Boolean,
 			default: false,
+			required:true
 		}
 	},
 	{
