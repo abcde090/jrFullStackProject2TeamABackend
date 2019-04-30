@@ -4,10 +4,17 @@ const Joi = require('joi')
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const userSchema = new mongoose.Schema(
 	{
-		name: {
+		firstName: {
 			type: String,
 			trim: true,
-			minlength: 2
+			minlength: 2,
+			required: true
+		},
+		lastName: {
+			type: String,
+			trim: true,
+			minlength: 2,
+			required: true
 		},
 		email: {
 			type: String,

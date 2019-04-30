@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const leaveService = require('../services/leave');
 const logger = require('../utils/logger')
-const { findByField, createUser, updateUser, deleteUser,removeOneLeaveFromUser } = require('../services/user');
+const { findByField, createUser, updateUser, deleteUser, removeOneLeaveFromUser } = require('../services/user');
 const { responseFormatter } = require('../utils/helpers')
 const Jwt = require('../utils/jwt')
 
@@ -12,8 +12,13 @@ const getUserById = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-	const users = await User.find();
-	return res.json(users);
+	if (Object.keys(req.query).length !== 0) {
+		const user = await findByField(req.query)
+		return res.json(user)
+	} else {
+		const users = await User.find();
+		return res.json(users);
+	}
 };
 
 const getUserByRole = async (req, res) => {
@@ -23,14 +28,16 @@ const getUserByRole = async (req, res) => {
 };
 
 const addUser = async (req, res) => {
-	const { name, email, password } = req.body;
+	const { firstName, lastName, email, password } = req.body;
+	console.log(req.body);
 	const userExist = await findByField({ email });
 	if (userExist) {
 		//email exist
 		return responseFormatter(res, { email }, 400, "email exist")
 	} else {
 		const user = await createUser({
-			name,
+			firstName,
+			lastName,
 			email,
 			password
 		})
@@ -44,29 +51,50 @@ const addUser = async (req, res) => {
 		return responseFormatter(res, { userId: user._id, token })
 	}
 }
-const deleteOneUser = async (req, res) => {
-	const { id } = req.params;
-	const user = await deleteUser(id);
-	return responseFormatter(res, user, 200);
-}
-const updateOneUser = async (req, res)=>{
-	const { id } = req.params
-	const {name, email, password, role} = req.body;
+const addUserWithoutToken = async (req, res) => {
+	const { firstName, lastName, email, password } = req.body;
+	console.log(req.body);
 	const userExist = await findByField({ email });
 	if (userExist) {
-		const user = await updateUser(id,{
-			name,
-			email,
-			password,
-			role
-		})
-		token = Jwt.createToken({
-			id,
-			role
-		})
-		return responseFormatter(res, { user, token })
+		//email exist
+		return responseFormatter(res, { email }, 400, "email exist")
 	} else {
-		return responseFormatter(res, { user_name:name }, 400, "No user exist")
+		const user = await createUser({
+			firstName,
+			lastName,
+			email,
+			password
+		})
+		return responseFormatter(res,user, 200)
+	}
+}
+const deleteOneUser = async (req, res) => {
+	const { id } = req.params;
+	const user = await User.findById(id);
+	if (user.role === 'admin') {
+		return responseFormatter(res,{}, 400, "Can't delete admin")
+	} else {
+		const user = await deleteUser(id);
+		return responseFormatter(res, user,200);
+	}
+
+}
+const updateOneUser = async (req, res) => {
+	console.log(req.body)
+	const { id } = req.params
+	// const { firstName,lastName, email,address,password } = req.body;
+
+
+	const userExist = await User.findById(id);
+	if (userExist) {
+		const user = await updateUser(id, req.body)
+		// token = Jwt.createToken({
+		// 	id,
+		// 	role
+		// })
+		return responseFormatter(res, { user })
+	} else {
+		return responseFormatter(res, { user_name: name }, 400, "No user exist")
 	}
 }
 
@@ -77,5 +105,6 @@ module.exports = {
 	addUser,
 	deleteOneUser,
 	updateOneUser,
+	addUserWithoutToken,
 	getUserByRole
 };

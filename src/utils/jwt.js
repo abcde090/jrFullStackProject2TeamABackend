@@ -7,7 +7,7 @@ const createToken = (payload) => {
 	const token = jwt.sign(
 		{ userId, role },
 		privateKey,
-		{ algorithm: "HS256", expiresIn: 60 * 30 });
+		{ algorithm: "HS256", expiresIn: 60 * 300 });
 	return token;
 }
 

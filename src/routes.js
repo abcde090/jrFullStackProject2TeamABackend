@@ -7,7 +7,7 @@ router.get('/api', (req, res) =>
 	responseFormatter(
 		res,
 		200,
-		'Welcome to the insight people api!',
+		'Welcome to the insight people api!, visit /api-docs for spi details',
 		null
 	)
 );

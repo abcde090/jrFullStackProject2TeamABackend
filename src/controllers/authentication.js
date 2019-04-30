@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
 			userId,
 			role
 		})
-		return responseFormatter(res, { userId, role, token })
+		return responseFormatter(res, { userId, role, token },200)
 	} else {
 		return responseFormatter(res, { email }, 400, "invalid email or password")
 	}

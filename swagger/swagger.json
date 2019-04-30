@@ -1,0 +1,184 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "This is a sample server of TeamA Backend",
+      "version": "1.0.0",
+      "title": "TeamA Backend",
+      "termsOfService": "http://swagger.io/terms/",
+      "contact": {
+        "email": "yushizhang111@gmail.com"
+      }
+    },
+    "tags": [
+      {
+        "name": "user",
+        "description": "Everything about users"
+      },
+      {
+        "name": "leave",
+        "description": "operation about leave"
+      }
+    ],
+    "paths": {
+      "/user": {
+        "post": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Add a new user",
+          "description": "",
+          "operationId": "addUser",
+          "parameters": [
+  
+          ],
+          "responses": {
+            "400": {
+              "description": "Invalid email"
+            },
+            "201": {
+              "description": "add user successfully"
+            }
+          },
+          "requestBody": {
+            "$ref": "#/components/requestBodies/user"
+          }
+        },
+        "get": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Get all users",
+          "description": "Get all users only with 'admin' role",
+          "operationId": "getAllUsers",
+          "responses": {
+            "400": {
+              "description": "unauthorized"
+            },
+            "200": {
+              "description": "get all users successfully"
+            }
+          },
+          "security": [
+            {
+              "TAB_Bearer": [
+  
+              ]
+            }
+          ]
+        }
+      },
+      "/user/auth": {
+        "get": {
+          "tags": [
+            "user"
+          ],
+          "summary": "operation about login",
+          "description": "login",
+          "operationId": "login",
+          "responses": {
+            "200": {
+              "description": "login successfully"
+            },
+            "400": {
+              "description": "Invalid username or password"
+            }
+          }
+        }
+      }
+    },
+    "externalDocs": {
+      "description": "Find out more about Swagger",
+      "url": "http://swagger.io"
+    },
+    "components": {
+      "schemas": {
+        "User": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        },
+        "UserLogin": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        },
+        "Leave": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "type": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "responses": {
+      },
+      "parameters": {
+      },
+      "examples": {
+      },
+      "requestBodies": {
+        "userLogin": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLogin"
+              }
+            }
+          },
+          "description": "user email and password for Login",
+          "required": true
+        },
+        "user": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "leave": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Leave"
+              }
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "TAB_Bearer": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      },
+      "headers": {
+      }
+    }
+  }
