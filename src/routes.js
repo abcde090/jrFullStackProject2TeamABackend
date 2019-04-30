@@ -3,7 +3,7 @@ const userRoute = require('./routes/user');
 const leaveRoute = require('./routes/leave');
 const responseFormatter = require('./utils/responseFormatter');
 const router = express.Router();
-router.get('/', (req, res) =>
+router.get('/api', (req, res) =>
 	responseFormatter(
 		res,
 		200,
@@ -11,7 +11,7 @@ router.get('/', (req, res) =>
 		null
 	)
 );
-router.use('/user', userRoute);
-router.use('/leave', leaveRoute);
+router.use('/api/users', userRoute);
+router.use('/api/leaves', leaveRoute);
 
 module.exports = router;
