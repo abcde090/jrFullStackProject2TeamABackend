@@ -1,3 +1,5 @@
+const authorization = require('../middlewares/authorization')
+const adminRole = require('../middlewares/adminRole')
 const router = require('express').Router();
 const { getAllLeaves, 
         getLeaveById, 
@@ -8,11 +10,11 @@ const { getAllLeaves,
         deleteAllLeaveOfUser } = require('../controllers/leave');
 
 router.get('/', getAllLeaves);
-router.get('/:id', getLeaveById);
+router.get('/:id', authorization,getLeaveById);
 router.put('/approve/:id', approveRequest);
 router.put('/:id', updateLeave);
 router.delete('/:id', deleteOneLeave)
 router.delete('/delete-leaves/:id',deleteAllLeaveOfUser);
-router.post('/', addLeave);
+router.post('/',addLeave);
 
 module.exports = router;

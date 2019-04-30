@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { getAllUsers, getUserById,addUser, updateOneUser, deleteOneUser,addUserWithoutToken，getUserByRole } = require('../controllers/user');
+const { getAllUsers, getUserById,addUser, updateOneUser, deleteOneUser,addUserWithoutToken,getUserByRole } = require('../controllers/user');
 const authorization = require('../middlewares/authorization')
 const adminRole = require('../middlewares/adminRole')
 const authentication = require('../controllers/authentication')
