@@ -8,12 +8,14 @@ const { getAllLeaves,
         rejectRequest,
         updateLeave,
         deleteOneLeave,
-        deleteAllLeaveOfUser } = require('../controllers/leave');
+        deleteAllLeaveOfUser,
+        getLeaveByStatus } = require('../controllers/leave');
 
 router.get('/', getAllLeaves);
+//'/status/approved or /status/request'
+router.get('/status/:status',getLeaveByStatus)
 router.get('/:id', authorization,getLeaveById);
-router.put('/approve/:id', approveRequest);
-router.put('/reject/:id', rejectRequest);
+router.patch('/approve', approveRequest);
 router.put('/:id', updateLeave);
 router.delete('/:id', deleteOneLeave)
 router.delete('/delete-leaves/:id',deleteAllLeaveOfUser);

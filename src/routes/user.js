@@ -6,7 +6,6 @@ const adminRole = require('../middlewares/adminRole')
 const authentication = require('../controllers/authentication')
 const bodyParser = require('body-parser')
 //public url
-router.use(bodyParser.json());
 router.get('/test',(req,res)=>{
     const {user,password} = req.body;
     console.log(user);
