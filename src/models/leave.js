@@ -41,8 +41,8 @@ const leaveSchema = new mongoose.Schema(
 		id:false,
 	}
 );
-// leaveSchema.virtual('duration').get(function() {
-// 	return `${this.endTime}`;
-//   });
+leaveSchema.virtual('duration').get(function() {
+	return Math.round((this.endTime-this.startTime)/3600000);
+});
 
 module.exports = mongoose.model('Leave', leaveSchema);
