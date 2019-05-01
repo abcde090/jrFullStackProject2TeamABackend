@@ -11,7 +11,7 @@ router.get('/api', (req, res) =>
 		null
 	)
 );
-router.use('/user', userRoute);
-router.use('/leaves', leaveRoute);
+router.use('/api/user', userRoute);
+router.use('/api/leaves', leaveRoute);
 
 module.exports = router;
