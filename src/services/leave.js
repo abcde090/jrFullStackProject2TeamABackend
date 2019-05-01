@@ -5,7 +5,18 @@ class LeaveService extends Service {
 	async approveRequest(LeaveId){
 		return await Leave.findByIdAndUpdate(LeaveId, {
 			$set: {
-				isApproved: true,
+				isApproved: "approved",
+			}
+		},
+		{
+			new: true,
+			runValidators: true
+		});
+	}
+	async rejectRequest(LeaveId){
+		return await Leave.findByIdAndUpdate(LeaveId, {
+			$set: {
+				isApproved: "rejected",
 			}
 		},
 		{

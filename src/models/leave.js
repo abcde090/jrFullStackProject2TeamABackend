@@ -14,19 +14,19 @@ const leaveSchema = new mongoose.Schema(
 			leaveSubType: String,
 			Paid: Boolean,
 		},
-		// startTime:{
-		// 	type:Date,
-		// },
-		// endTime:{
-		// 	type:Date,
-		// },
+		startTime:{
+			type:Date,
+		},
+		endTime:{
+			type:Date,
+		},
 		supervisor:{
 			type: ObjectId, 
 			ref: 'User',
 		},
 		isApproved:{
-			type:Boolean,
-			default: false,
+			type:String,
+			default: "pending",
 			required:true
 		}
 	},

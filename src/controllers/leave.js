@@ -23,7 +23,7 @@ async function getLeaveById(req, res) {
 }
 
 async function addLeave(req, res){
-	const{description,leaveSubType,paid,applicant,supervisor}=req.body
+	const{description,leaveSubType,paid,applicant,supervisor,startTime,endTime}=req.body
 	const leave = await leaveService.createOne({
 		applicant,
 		supervisor,
@@ -31,8 +31,10 @@ async function addLeave(req, res){
 			leaveSubType:leaveSubType,
 			Paid:paid,
 		},
+		startTime,
+		endTime,
 		description,
-		isApproved:false,
+		isApproved:"pending",
 	});
 	const leaveId = leave._id;
 	const applicantId = applicant;
@@ -45,6 +47,13 @@ async function addLeave(req, res){
 async function approveRequest(req,res){
 	const { id } = req.params;
 	const leave = await leaveService.approveRequest(id); 
+	return responseFormatter(res,leave, 201);
+	
+}
+
+async function rejectRequest(req,res){
+	const { id } = req.params;
+	const leave = await leaveService.rejectRequest(id); 
 	return responseFormatter(res,leave, 201);
 	
 }
@@ -99,6 +108,7 @@ module.exports = {
 	getAllLeaves,
 	addLeave,
 	approveRequest,
+	rejectRequest,
 	updateLeave,
 	deleteOneLeave,
 	deleteAllLeaveOfUser,
