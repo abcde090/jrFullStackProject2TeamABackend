@@ -24,9 +24,10 @@ const leaveSchema = new mongoose.Schema(
 			type: ObjectId, 
 			ref: 'User',
 		},
+		//approve status,true when approved, false when reject
 		isApproved:{
-			type:Boolean,
-			default: false,
+			type:String,
+			default: 'pending',
 			required:true
 		}
 	},

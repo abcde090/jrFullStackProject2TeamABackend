@@ -14,7 +14,7 @@ router.get('/', getAllLeaves);
 //'/status/approved or /status/request'
 router.get('/status/:status',getLeaveByStatus)
 router.get('/:id', authorization,getLeaveById);
-router.put('/approve/:id', approveRequest);
+router.patch('/approve', approveRequest);
 router.put('/:id', updateLeave);
 router.delete('/:id', deleteOneLeave)
 router.delete('/delete-leaves/:id',deleteAllLeaveOfUser);

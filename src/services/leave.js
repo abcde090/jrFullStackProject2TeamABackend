@@ -2,10 +2,10 @@ const Leave = require('../models/leave');
 const Service = require('./service');
 
 class LeaveService extends Service {
-	async approveRequest(LeaveId){
-		return await Leave.findByIdAndUpdate(LeaveId, {
+	async approveRequest({id,action}){
+		return await Leave.findByIdAndUpdate(id, {
 			$set: {
-				isApproved: true,
+				isApproved: action,
 			}
 		},
 		{

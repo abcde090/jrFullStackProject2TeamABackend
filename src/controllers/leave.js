@@ -12,9 +12,7 @@ async function getAllLeaves(req, res) {
 }
 const getLeaveByStatus = async (req, res) => {
 	const { status } = req.params;
-	isApproved= status==='approved'? true:status==='request'?false:null;
-	console.log(isApproved)
-	const leaves = await leaveService.findAllByField({ isApproved })
+	const leaves = await leaveService.findAllByField({ isApproved:status })
 	if (leaves) {
 		return res.json(leaves);
 	}else{
@@ -45,7 +43,7 @@ async function addLeave(req, res) {
 			Paid: paid,
 		},
 		description,
-		isApproved: false,
+		isApproved: 'pending',
 	});
 	console.log(leave)
 	const leaveId = leave._id;
@@ -57,8 +55,8 @@ async function addLeave(req, res) {
 }
 
 async function approveRequest(req, res) {
-	const { id } = req.params;
-	const leave = await leaveService.approveRequest(id);
+	const {id,action} = req.body;
+	const leave = await leaveService.approveRequest({id,action});
 	return responseFormatter(res, leave, 201);
 
 }
