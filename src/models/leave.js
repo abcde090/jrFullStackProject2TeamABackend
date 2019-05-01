@@ -14,12 +14,12 @@ const leaveSchema = new mongoose.Schema(
 			leaveSubType: String,
 			Paid: Boolean,
 		},
-		// startTime:{
-		// 	type:Date,
-		// },
-		// endTime:{
-		// 	type:Date,
-		// },
+		startTime:{
+			type:Date,
+		},
+		endTime:{
+			type:Date,
+		},
 		supervisor:{
 			type: ObjectId, 
 			ref: 'User',
@@ -27,7 +27,7 @@ const leaveSchema = new mongoose.Schema(
 		//approve status,true when approved, false when reject
 		isApproved:{
 			type:String,
-			default: 'pending',
+			default: "pending",
 			required:true
 		}
 	},
@@ -42,8 +42,8 @@ const leaveSchema = new mongoose.Schema(
 		id:false,
 	}
 );
-// leaveSchema.virtual('duration').get(function() {
-// 	return `${this.endTime}`;
-//   });
+leaveSchema.virtual('duration').get(function() {
+	return Math.round((this.endTime-this.startTime)/3600000);
+});
 
 module.exports = mongoose.model('Leave', leaveSchema);

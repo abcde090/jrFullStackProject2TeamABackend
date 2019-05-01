@@ -37,7 +37,14 @@ const userSchema = new mongoose.Schema(
 		leaves: [{ 
 			type: ObjectId, 
 			ref: 'Leave'
-		}]
+		}],
+		annualLeaveBalance:{
+			type: Number,
+		},
+		personalLeaveBalance:{
+			type: Number,
+		},
+
 	},
 	{
 		timestamps: true,
