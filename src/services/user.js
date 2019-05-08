@@ -79,6 +79,7 @@ const removeOneLeaveFromUser = async (UserId, LeaveId)=> {
 	});
 }
 
+
 module.exports = {
 	findByField,
 	createUser,

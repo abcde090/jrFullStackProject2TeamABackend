@@ -12,11 +12,11 @@ async function getAllLeaves(req, res) {
 }
 const getLeaveByStatus = async (req, res) => {
 	const { status } = req.params;
-	const leaves = await leaveService.findAllByField({ isApproved:status })
+	const leaves = await leaveService.findAllByField({ isApproved: status })
 	if (leaves) {
 		return res.json(leaves);
-	}else{
-		return responseFormatter(res,[],400,'No such status leaves')
+	} else {
+		return responseFormatter(res, [], 400, 'No such status leaves')
 	}
 }
 
@@ -32,8 +32,8 @@ async function getLeaveById(req, res) {
 	return responseFormatter(res, leave);
 }
 
-async function addLeave(req, res){
-	const{description,leaveSubType,paid,applicant,supervisor,startTime,endTime}=req.body
+async function addLeave(req, res) {
+	const { description, leaveSubType, paid, applicant, supervisor, startTime, endTime } = req.body
 	const leave = await leaveService.createOne({
 		applicant,
 		supervisor,
@@ -44,7 +44,7 @@ async function addLeave(req, res){
 		startTime,
 		endTime,
 		description,
-		isApproved:"pending",
+		isApproved: "pending",
 	});
 	console.log(leave)
 	const leaveId = leave._id;
@@ -56,20 +56,20 @@ async function addLeave(req, res){
 }
 
 async function approveRequest(req, res) {
-	const {id,action} = req.body;
-	const leave = await leaveService.approveRequest({id,action});
+	const { id, action } = req.body;
+	const leave = await leaveService.approveRequest({ id, action });
 	return responseFormatter(res, leave, 201);
 
 }
 
-async function rejectRequest(req,res){
+async function rejectRequest(req, res) {
 	const { id } = req.params;
-	const leave = await leaveService.rejectRequest(id); 
-	return responseFormatter(res,leave, 201);
-	
+	const leave = await leaveService.rejectRequest(id);
+	return responseFormatter(res, leave, 201);
+
 }
 
-async function updateLeave(req, res){
+async function updateLeave(req, res) {
 	const { id } = req.params;
 	const { description, leaveSubType, paid, applicant, supervisor, isApproved } = req.body
 	console.log(leaveSubType);
@@ -113,6 +113,11 @@ async function deleteAllLeaveOfUser(req, res) {
 	})
 	return responseFormatter(res, userUpdate, 201);
 }
+async function getSortedLeaveByUserId(req, res) {
+	const { id } = req.params;
+	const sortedLeaveUser = await User.findById(id).populate('leaves', {}, null, { sort: { 'createdAt': -1 } })
+	return res.json(sortedLeaveUser.leaves)
+}
 
 module.exports = {
 	getLeaveById,
@@ -123,5 +128,6 @@ module.exports = {
 	updateLeave,
 	deleteOneLeave,
 	deleteAllLeaveOfUser,
-	getLeaveByStatus
+	getLeaveByStatus,
+	getSortedLeaveByUserId
 };
