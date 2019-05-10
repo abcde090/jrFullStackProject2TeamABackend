@@ -26,7 +26,9 @@ const updateUser = async(UserId, fields) =>{
 }
 
 const updateUserLeaveBalance = async(UserId, leaveType, duration,paid) =>{
+	console.log('pp');
 	if(leaveType==='annual' && paid===true) {
+		console.log('oo')
 		return await User.findByIdAndUpdate(UserId, {
 			$inc: {
 				annualLeaveBalance: -duration,
@@ -37,7 +39,9 @@ const updateUserLeaveBalance = async(UserId, leaveType, duration,paid) =>{
 			runValidators: true
 		})
 	}
-	if(leaveType==='personal' && paid==='true') {
+	if(leaveType==='personal' && paid===true) {
+		const user = User.findById(UserId);
+		console.log(user);
 		return await User.findByIdAndUpdate(UserId, {
 			$inc: {
 				personalLeaveBalance: -duration,
