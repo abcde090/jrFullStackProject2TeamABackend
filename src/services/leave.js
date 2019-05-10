@@ -12,7 +12,7 @@ class LeaveService extends Service {
 				new: true,
 				runValidators: true
 			}).then(item => {
-				if (item.isApproved === 'approved') {
+				if (item.isApproved === 'approve') {
 					const leaveType = item.leaveType.leaveSubType;
 					const paid = item.leaveType.Paid;
 					const duration = item.duration;
