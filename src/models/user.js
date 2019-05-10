@@ -44,6 +44,9 @@ const userSchema = new mongoose.Schema(
 		personalLeaveBalance:{
 			type: Number,
 		},
+		address:{
+			type: String,
+		}
 
 	},
 	{

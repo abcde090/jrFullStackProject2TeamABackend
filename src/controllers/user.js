@@ -83,18 +83,12 @@ const updateOneUser = async (req, res) => {
 	console.log(req.body)
 	const { id } = req.params
 	// const { firstName,lastName, email,address,password } = req.body;
-
-
 	const userExist = await User.findById(id);
 	if (userExist) {
 		const user = await updateUser(id, req.body)
-		// token = Jwt.createToken({
-		// 	id,
-		// 	role
-		// })
 		return responseFormatter(res, { user })
 	} else {
-		return responseFormatter(res, { user_name: name }, 400, "No user exist")
+		return responseFormatter(res, { user_name: name }, 400, "User Not Exist")
 	}
 }
 
