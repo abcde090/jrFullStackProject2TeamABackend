@@ -57,7 +57,7 @@ const addUserWithoutToken = async (req, res) => {
 	const userExist = await findByField({ email });
 	if (userExist) {
 		//email exist
-		return responseFormatter(res, { email }, 400, "email exist")
+		return responseFormatter(res, { email }, 400, "Email Exist")
 	} else {
 		const user = await createUser({
 			firstName,
